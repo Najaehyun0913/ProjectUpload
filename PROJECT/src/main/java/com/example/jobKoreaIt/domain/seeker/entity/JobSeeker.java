@@ -22,4 +22,6 @@ public class JobSeeker {
     private String addr2;
 
 
+    public Object getPassword() {
+    }
 }

@@ -20,4 +20,6 @@ public class JobOffer{
     private String offerName;
     private String offerAddress;
 
+    public Object getPassword() {
+    }
 }

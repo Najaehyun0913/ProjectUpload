@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface JobOfferRepository extends JpaRepository<JobOffer,Long> {
+
+    JobOffer findByUsername(String username);
 }
