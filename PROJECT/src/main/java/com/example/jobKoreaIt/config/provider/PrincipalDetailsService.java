@@ -1,58 +1,51 @@
 package com.example.jobKoreaIt.config.provider;
 
+import com.example.jobKoreaIt.domain.common.dto.UserDto;
+import com.example.jobKoreaIt.domain.common.entity.User;
+import com.example.jobKoreaIt.domain.common.repository.UserRepository;
 import com.example.jobKoreaIt.domain.offer.dto.OfferDto;
 import com.example.jobKoreaIt.domain.seeker.dto.SeekerDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class PrincipalDetailsService implements UserDetails, OAuth2User {
+public class PrincipalDetailsService implements UserDetailsService {
 
-    private OfferDto offerDto;
-    private SeekerDto seekerDto;
 
-    public void PrincipalDetails(OfferDto offerDto) {this.offerDto = offerDto}
-    //-----------------------------------
-    //OAUTH2
-    //-----------------------------------
-    private String accessToken;
-    private Map<String,Object> attributes;
-    @Override
-    public Map<String,Object> getAttributes()
-
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
-    public String getName() {
-        return "";
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<User> userOption = userRepository.findById(username);
+
+        if(userOption.isEmpty()){
+            throw new UsernameNotFoundException(username);
+        }
+        UserDto userDto = new UserDto();
+        User user = userOption.get();
+        userDto.setUsername(user.getUsername());
+        userDto.setPassword(user.getPassword());
+        userDto.setRole(user.getRole());
+
+        return  new PrincipalDetails(userDto);
+
     }
 
-    @Override
-    public Map<String, Object> getAttributes() {
-        return Map.of();
-    }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
-    }
 
-    @Override
-    public String getPassword() {
-        return "";
-    }
-
-    @Override
-    public String getUsername() {
-        return "";
-    }
 }

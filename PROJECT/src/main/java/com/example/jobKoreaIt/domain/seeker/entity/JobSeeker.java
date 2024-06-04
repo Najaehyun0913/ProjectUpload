@@ -13,15 +13,25 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Table(name="seeker")
 public class JobSeeker {
+
     @Id
     private Long id;
-
     private String tel;
     private String zipcode;
     private String addr1;
     private String addr2;
 
 
-    public Object getPassword() {
+    private String username;
+    private String password;
+    private String email;
+
+    public void setUsername(String username) {
+    }
+
+    public void setPassword(String password) {
+    }
+
+    public void setEmail(String email) {
     }
 }

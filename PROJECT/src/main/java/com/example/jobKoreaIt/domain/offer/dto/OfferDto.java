@@ -9,5 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OfferDto {
-    private String id;
+    private Long id;
+    private String offerName;
+    private String offerAddress;
+    private String email;
 }

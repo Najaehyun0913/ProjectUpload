@@ -3,8 +3,6 @@ package com.example.jobKoreaIt.controller.user;
 
 import com.example.jobKoreaIt.domain.common.dto.UserDto;
 import com.example.jobKoreaIt.domain.common.service.UserServiceImpl;
-import com.example.jobKoreaIt.domain.offer.dto.OfferDto;
-import com.example.jobKoreaIt.domain.seeker.dto.SeekerDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -22,13 +20,11 @@ public class UserController {
 
     @Autowired
     private UserServiceImpl userService;
-
     @GetMapping("/user/seeker/login")
-    public String seekerLoginForm() {
+    public String seekerLogin() {
         log.info("GET /user/seeker/login...");
         return "seekerLogin";
     }
-
     @PostMapping("/user/seeker/login")
     public String loginSeeker(@RequestParam("username") String username,
                               @RequestParam("password") String password,
@@ -45,13 +41,11 @@ public class UserController {
             return "seekerLogin";
         }
     }
-
     @GetMapping("/user/offer/login")
-    public String offerLoginForm() {
+    public String offerLogin() {
         log.info("GET /user/offer/login...");
         return "offerLogin";
     }
-
     @PostMapping("/user/offer/login")
     public String loginOffer(@RequestParam("username") String username,
                              @RequestParam("password") String password,
@@ -68,7 +62,6 @@ public class UserController {
             return "offerLogin";
         }
     }
-
     @GetMapping("/user/logout")
     public String logout(HttpServletRequest request) {
         log.info("GET /user/logout...");
@@ -77,11 +70,30 @@ public class UserController {
         return "redirect:/";
     }
 
-    @GetMapping("/user/join")
-    public String joinForm() {
-        log.info("GET /user/join...");
-        return "join";
+    @PostMapping("/user/join")
+    public String join(@RequestParam("username")String username,
+                       @RequestParam("password")String password,
+                       @RequestParam("email") String email,
+                       Model model){
+        log.info("POST /user/join");
+        UserDto userDto = new UserDto();
+        userDto.setUsername(username);
+        userDto.setPassword(password);
+
+        boolean UserJoin = userService.UserJoin(userDto);
+
+
     }
+
+
+
+
+
+
+
+
+
+
 
     @PostMapping("/user/myinfo")
     public void myinfo() {
